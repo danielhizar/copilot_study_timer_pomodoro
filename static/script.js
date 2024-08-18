@@ -1,43 +1,87 @@
-let timer;
-let isRunning = false;
-let timeLeft = 25 * 60;
+let studyTimer;
+let breakTimer;
+let isStudyRunning = false;
+let isBreakRunning = false;
+let studyTimeLeft = 25 * 60;
+let breakTimeLeft = 5 * 60;
 
-function startTimer() {
-    if (!isRunning) {
-        isRunning = true;
-        timer = setInterval(updateTimer, 1000);
-        document.getElementById('startButton').disabled = true;
-        document.getElementById('pauseButton').disabled = false;
-        document.getElementById('resetButton').disabled = false;
+function startStudyTimer() {
+    if (!isStudyRunning) {
+        resetBreakTimer(); // Reset break timer when study timer starts
+        isStudyRunning = true;
+        studyTimer = setInterval(updateStudyTimer, 1000);
+        document.getElementById('startStudyButton').disabled = true;
+        document.getElementById('pauseStudyButton').disabled = false;
+        document.getElementById('resetStudyButton').disabled = false;
     }
 }
 
-function pauseTimer() {
-    isRunning = false;
-    clearInterval(timer);
-    document.getElementById('startButton').disabled = false;
-    document.getElementById('pauseButton').disabled = true;
-    document.getElementById('resetButton').disabled = false;
-    document.getElementById('startButton').textContent = "Continue Study";
+function pauseStudyTimer() {
+    isStudyRunning = false;
+    clearInterval(studyTimer);
+    document.getElementById('startStudyButton').disabled = false;
+    document.getElementById('pauseStudyButton').disabled = true;
+    document.getElementById('resetStudyButton').disabled = false;
+    document.getElementById('startStudyButton').textContent = "Continue Study";
 }
 
-function resetTimer() {
-    pauseTimer();
-    timeLeft = 25 * 60;
-    document.getElementById('time').textContent = formatTime(timeLeft);
-    document.getElementById('startButton').disabled = false;
-    document.getElementById('pauseButton').disabled = true;
-    document.getElementById('resetButton').disabled = true;
-    document.getElementById('startButton').textContent = "Start Study";
+function resetStudyTimer() {
+    pauseStudyTimer();
+    studyTimeLeft = 25 * 60;
+    document.getElementById('studyTime').textContent = formatTime(studyTimeLeft);
+    document.getElementById('startStudyButton').disabled = false;
+    document.getElementById('pauseStudyButton').disabled = true;
+    document.getElementById('resetStudyButton').disabled = true;
+    document.getElementById('startStudyButton').textContent = "Start Study";
 }
 
-function updateTimer() {
-    if (timeLeft > 0) {
-        timeLeft--;
-        document.getElementById('time').textContent = formatTime(timeLeft);
+function updateStudyTimer() {
+    if (studyTimeLeft > 0) {
+        studyTimeLeft--;
+        document.getElementById('studyTime').textContent = formatTime(studyTimeLeft);
     } else {
-        pauseTimer();
-        alert("Time's up!");
+        pauseStudyTimer();
+        alert("Study time's up!");
+    }
+}
+
+function startBreakTimer() {
+    if (!isBreakRunning) {
+        resetStudyTimer(); // Reset study timer when break timer starts
+        isBreakRunning = true;
+        breakTimer = setInterval(updateBreakTimer, 1000);
+        document.getElementById('startBreakButton').disabled = true;
+        document.getElementById('pauseBreakButton').disabled = false;
+        document.getElementById('resetBreakButton').disabled = false;
+    }
+}
+
+function pauseBreakTimer() {
+    isBreakRunning = false;
+    clearInterval(breakTimer);
+    document.getElementById('startBreakButton').disabled = false;
+    document.getElementById('pauseBreakButton').disabled = true;
+    document.getElementById('resetBreakButton').disabled = false;
+    document.getElementById('startBreakButton').textContent = "Continue Break";
+}
+
+function resetBreakTimer() {
+    pauseBreakTimer();
+    breakTimeLeft = 5 * 60;
+    document.getElementById('breakTime').textContent = formatTime(breakTimeLeft);
+    document.getElementById('startBreakButton').disabled = false;
+    document.getElementById('pauseBreakButton').disabled = true;
+    document.getElementById('resetBreakButton').disabled = true;
+    document.getElementById('startBreakButton').textContent = "Start Break";
+}
+
+function updateBreakTimer() {
+    if (breakTimeLeft > 0) {
+        breakTimeLeft--;
+        document.getElementById('breakTime').textContent = formatTime(breakTimeLeft);
+    } else {
+        pauseBreakTimer();
+        alert("Break time's up!");
     }
 }
 

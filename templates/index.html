@@ -7,12 +7,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="timer">
-        <h1>Study Timer</h1>
-        <h2 id="time">25:00</h2>
-        <button id="startButton" onclick="startTimer()">Start Study</button>
-        <button id="pauseButton" onclick="pauseTimer()" disabled>Pause Study</button>
-        <button id="resetButton" onclick="resetTimer()" disabled>Reset Study</button>
+    <div class="container">
+        <div class="timer">
+            <h1>Study Timer</h1>
+            <h2 id="studyTime">25:00</h2>
+            <button id="startStudyButton" onclick="startStudyTimer()">Start Study</button>
+            <button id="pauseStudyButton" onclick="pauseStudyTimer()" disabled>Pause Study</button>
+            <button id="resetStudyButton" onclick="resetStudyTimer()" disabled>Reset Study</button>
+        </div>
+        <div class="timer">
+            <h1>Break Timer</h1>
+            <h2 id="breakTime">05:00</h2>
+            <button id="startBreakButton" onclick="startBreakTimer()">Start Break</button>
+            <button id="pauseBreakButton" onclick="pauseBreakTimer()" disabled>Pause Break</button>
+            <button id="resetBreakButton" onclick="resetBreakTimer()" disabled>Reset Break</button>
+        </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
