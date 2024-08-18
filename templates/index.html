@@ -27,6 +27,17 @@
             <button id="pauseBreakButton" onclick="pauseBreakTimer()" disabled>Pause Break</button>
             <button id="resetBreakButton" onclick="resetBreakTimer()" disabled>Reset Break</button>
         </div>
+        <div class="timer">
+            <h2>Long Break Timer</h2>
+            <h3 id="longBreakTime">15:00</h3>
+            <button id="startLongBreakButton" onclick="startLongBreakTimer()" disabled>Start Long Break</button>
+            <button id="pauseLongBreakButton" onclick="pauseLongBreakTimer()" disabled>Pause Long Break</button>
+            <button id="resetLongBreakButton" onclick="resetLongBreakTimer()" disabled>Reset Long Break</button>
+        </div>
+    </div>
+    <div class="session-counts">
+        <p>Completed Study Sessions: <span id="studyCount">0</span></p>
+        <p>Completed Breaks: <span id="breakCount">0</span></p>
     </div>
     <audio id="studyEndSound" src="{{ url_for('static', filename='study_end.wav') }}"></audio>
     <audio id="breakEndSound" src="{{ url_for('static', filename='break_end.wav') }}"></audio>

@@ -42,13 +42,13 @@ body.dark-mode .timer {
     border: 2px solid #555; /* Dark border */
 }
 
-#studyTime, #breakTime {
+#studyTime, #breakTime, #longBreakTime {
     font-size: 48px;
     margin-bottom: 20px;
     color: #6a1b9a; /* Medium purple text color */
 }
 
-body.dark-mode #studyTime, body.dark-mode #breakTime {
+body.dark-mode #studyTime, body.dark-mode #breakTime, body.dark-mode #longBreakTime {
     color: #bb86fc; /* Light purple text color */
 }
 
@@ -102,5 +102,16 @@ body.dark-mode button:disabled {
 
 body.dark-mode .quote-container {
     background-color: #333; /* Dark background */
+    color: #e1bee7; /* Light purple text color */
+}
+
+.session-counts {
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+    color: #4a148c; /* Dark purple text color */
+}
+
+body.dark-mode .session-counts {
     color: #e1bee7; /* Light purple text color */
 }
