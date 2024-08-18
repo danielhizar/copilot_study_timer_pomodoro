@@ -9,14 +9,13 @@ body {
 
 .container {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
 .timer {
     text-align: center;
-    margin: 0 20px; /* Add horizontal margin between timers */
+    margin: 20px; /* Add horizontal margin between timers */
 }
 
 #studyTime, #breakTime {

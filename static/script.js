@@ -2,8 +2,11 @@ let studyTimer;
 let breakTimer;
 let isStudyRunning = false;
 let isBreakRunning = false;
-let studyTimeLeft = 25 * 60;
-let breakTimeLeft = 5 * 60;
+let studyTimeLeft = 5; //25 * 60;
+let breakTimeLeft = 5; //5 * 60;
+
+const studyEndSound = document.getElementById('studyEndSound');
+const breakEndSound = document.getElementById('breakEndSound');
 
 function startStudyTimer() {
     if (!isStudyRunning) {
@@ -40,8 +43,9 @@ function updateStudyTimer() {
         studyTimeLeft--;
         document.getElementById('studyTime').textContent = formatTime(studyTimeLeft);
     } else {
-        pauseStudyTimer();
-        alert("Study time's up!");
+        console.log("Study timer ended. Playing sound...");
+        studyEndSound.play().catch(error => console.error("Error playing study end sound:", error));
+        resetStudyTimer();
     }
 }
 
@@ -80,8 +84,9 @@ function updateBreakTimer() {
         breakTimeLeft--;
         document.getElementById('breakTime').textContent = formatTime(breakTimeLeft);
     } else {
-        pauseBreakTimer();
-        alert("Break time's up!");
+        console.log("Break timer ended. Playing sound...");
+        breakEndSound.play().catch(error => console.error("Error playing break end sound:", error));
+        resetBreakTimer();
     }
 }
 

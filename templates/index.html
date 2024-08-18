@@ -9,20 +9,22 @@
 <body>
     <div class="container">
         <div class="timer">
-            <h1>Study Timer</h1>
-            <h2 id="studyTime">25:00</h2>
+            <h2>Study Timer</h2>
+            <h3 id="studyTime">25:00</h3>
             <button id="startStudyButton" onclick="startStudyTimer()">Start Study</button>
             <button id="pauseStudyButton" onclick="pauseStudyTimer()" disabled>Pause Study</button>
             <button id="resetStudyButton" onclick="resetStudyTimer()" disabled>Reset Study</button>
         </div>
         <div class="timer">
-            <h1>Break Timer</h1>
-            <h2 id="breakTime">05:00</h2>
+            <h2>Break Timer</h2>
+            <h3 id="breakTime">05:00</h3>
             <button id="startBreakButton" onclick="startBreakTimer()">Start Break</button>
             <button id="pauseBreakButton" onclick="pauseBreakTimer()" disabled>Pause Break</button>
             <button id="resetBreakButton" onclick="resetBreakTimer()" disabled>Reset Break</button>
         </div>
     </div>
+    <audio id="studyEndSound" src="{{ url_for('static', filename='study_end.wav') }}"></audio>
+    <audio id="breakEndSound" src="{{ url_for('static', filename='break_end.wav') }}"></audio>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
