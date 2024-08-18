@@ -22,7 +22,11 @@ function displayRandomQuote() {
     document.getElementById('quote').textContent = quotes[randomIndex];
 }
 
-setInterval(displayRandomQuote, 10000); // Display a new quote every 10 seconds
+// Display an initial quote when the page loads
+displayRandomQuote();
+
+// Display a new quote every 10 seconds
+setInterval(displayRandomQuote, 10000);
 
 function startStudyTimer() {
     if (!isStudyRunning) {
@@ -112,4 +116,15 @@ function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function toggleMode() {
+    const body = document.body;
+    const modeToggle = document.getElementById('modeToggle');
+    body.classList.toggle('dark-mode');
+    if (body.classList.contains('dark-mode')) {
+        modeToggle.textContent = "Switch to Light Mode";
+    } else {
+        modeToggle.textContent = "Switch to Dark Mode";
+    }
 }

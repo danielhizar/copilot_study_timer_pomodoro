@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
     <div class="quote-container">
         <p id="quote"></p>
     </div>
@@ -26,7 +28,6 @@
             <button id="resetBreakButton" onclick="resetBreakTimer()" disabled>Reset Break</button>
         </div>
     </div>
-    
     <audio id="studyEndSound" src="{{ url_for('static', filename='study_end.wav') }}"></audio>
     <audio id="breakEndSound" src="{{ url_for('static', filename='break_end.wav') }}"></audio>
     <audio id="startSound" src="{{ url_for('static', filename='start_sound.wav') }}"></audio>
