@@ -9,6 +9,21 @@ const studyEndSound = document.getElementById('studyEndSound');
 const breakEndSound = document.getElementById('breakEndSound');
 const startSound = document.getElementById('startSound');
 
+const quotes = [
+    "Stay focused and never give up.",
+    "Believe in yourself and all that you are.",
+    "The future depends on what you do today.",
+    "Don't watch the clock; do what it does. Keep going.",
+    "Success is not the key to happiness. Happiness is the key to success."
+];
+
+function displayRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    document.getElementById('quote').textContent = quotes[randomIndex];
+}
+
+setInterval(displayRandomQuote, 10000); // Display a new quote every 10 seconds
+
 function startStudyTimer() {
     if (!isStudyRunning) {
         resetBreakTimer(); // Reset break timer when study timer starts

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="quote-container">
+        <p id="quote"></p>
+    </div>
     <div class="container">
         <div class="timer">
             <h2>Study Timer</h2>
@@ -22,6 +26,7 @@
             <button id="resetBreakButton" onclick="resetBreakTimer()" disabled>Reset Break</button>
         </div>
     </div>
+    
     <audio id="studyEndSound" src="{{ url_for('static', filename='study_end.wav') }}"></audio>
     <audio id="breakEndSound" src="{{ url_for('static', filename='break_end.wav') }}"></audio>
     <audio id="startSound" src="{{ url_for('static', filename='start_sound.wav') }}"></audio>
