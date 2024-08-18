@@ -9,13 +9,14 @@
 </head>
 <body>
     <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
+    <button id="customizeButton" onclick="openCustomizePopup()">Customize Timer</button>
     <div class="quote-container">
         <p id="quote"></p>
     </div>
     <div class="container">
         <div class="timer">
             <h2>Study Timer</h2>
-            <p>25 mins</p>
+            <p id="studyDuration">25 mins</p>
             <h3 id="studyTime">25:00</h3>
             <button id="startStudyButton" onclick="startStudyTimer()">Start Study</button>
             <button id="pauseStudyButton" onclick="pauseStudyTimer()" disabled>Pause Study</button>
@@ -23,7 +24,7 @@
         </div>
         <div class="timer">
             <h2>Break Timer</h2>
-            <p>5 mins</p>
+            <p id="breakDuration">5 mins</p>
             <h3 id="breakTime">05:00</h3>
             <button id="startBreakButton" onclick="startBreakTimer()">Start Break</button>
             <button id="pauseBreakButton" onclick="pauseBreakTimer()" disabled>Pause Break</button>
@@ -31,7 +32,7 @@
         </div>
         <div class="timer">
             <h2>Long Break Timer</h2>
-            <p>15 mins</p>
+            <p id="longBreakDuration">15 mins</p>
             <h3 id="longBreakTime">15:00</h3>
             <button id="startLongBreakButton" onclick="startLongBreakTimer()" disabled>Start Long Break</button>
             <button id="pauseLongBreakButton" onclick="pauseLongBreakTimer()" disabled>Pause Long Break</button>
@@ -45,6 +46,26 @@
     <audio id="studyEndSound" src="{{ url_for('static', filename='study_end.wav') }}"></audio>
     <audio id="breakEndSound" src="{{ url_for('static', filename='break_end.wav') }}"></audio>
     <audio id="startSound" src="{{ url_for('static', filename='start_sound.wav') }}"></audio>
+
+    <!-- Customize Timer Popup -->
+    <div id="customizePopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeCustomizePopup()">&times;</span>
+            <h2>Customize Timer</h2>
+            <form id="customizeForm" onsubmit="customizeTimers(event)">
+                <label for="studyDurationInput">Study Duration (minutes):</label>
+                <input type="number" id="studyDurationInput" name="studyDurationInput" min="1" value="25">
+                <label for="breakDurationInput">Break Duration (minutes):</label>
+                <input type="number" id="breakDurationInput" name="breakDurationInput" min="1" value="5">
+                <label for="longBreakDurationInput">Long Break Duration (minutes):</label>
+                <input type="number" id="longBreakDurationInput" name="longBreakDurationInput" min="1" value="15">
+                <label for="sessionsBeforeLongBreakInput">Sessions Before Long Break:</label>
+                <input type="number" id="sessionsBeforeLongBreakInput" name="sessionsBeforeLongBreakInput" min="1" value="4">
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

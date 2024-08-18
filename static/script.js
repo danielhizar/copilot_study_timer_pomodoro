@@ -4,9 +4,13 @@ let longBreakTimer;
 let isStudyRunning = false;
 let isBreakRunning = false;
 let isLongBreakRunning = false;
-let studyTimeLeft = 5; //25 * 60;
-let breakTimeLeft = 5; //5 * 60;
-let longBreakTimeLeft = 5; //15 * 60;
+let studyDuration = 25;
+let breakDuration = 5;
+let longBreakDuration = 15;
+let sessionsBeforeLongBreak = 4;
+let studyTimeLeft = studyDuration * 60;
+let breakTimeLeft = breakDuration * 60;
+let longBreakTimeLeft = longBreakDuration * 60;
 let studyCount = 0;
 let breakCount = 0;
 
@@ -30,19 +34,68 @@ function displayRandomQuote() {
 // Display an initial quote when the page loads
 displayRandomQuote();
 
-// Display a new quote every 10 seconds
-setInterval(displayRandomQuote, 10000);
+function openCustomizePopup() {
+    document.getElementById('customizePopup').style.display = 'block';
+}
+
+function closeCustomizePopup() {
+    document.getElementById('customizePopup').style.display = 'none';
+}
+
+function customizeTimers(event) {
+    event.preventDefault();
+    studyDuration = parseInt(document.getElementById('studyDurationInput').value) || 25;
+    breakDuration = parseInt(document.getElementById('breakDurationInput').value) || 5;
+    longBreakDuration = parseInt(document.getElementById('longBreakDurationInput').value) || 15;
+    sessionsBeforeLongBreak = parseInt(document.getElementById('sessionsBeforeLongBreakInput').value) || 4;
+
+    studyTimeLeft = studyDuration * 60;
+    breakTimeLeft = breakDuration * 60;
+    longBreakTimeLeft = longBreakDuration * 60;
+
+    document.getElementById('studyDuration').innerText = `${studyDuration} mins`;
+    document.getElementById('breakDuration').innerText = `${breakDuration} mins`;
+    document.getElementById('longBreakDuration').innerText = `${longBreakDuration} mins`;
+
+    document.getElementById('studyTime').innerText = formatTime(studyTimeLeft);
+    document.getElementById('breakTime').innerText = formatTime(breakTimeLeft);
+    document.getElementById('longBreakTime').innerText = formatTime(longBreakTimeLeft);
+
+    closeCustomizePopup();
+}
 
 function startStudyTimer() {
     if (!isStudyRunning) {
         resetBreakTimer(); // Reset break timer when study timer starts
-        resetLongBreakTimer(); // Reset long break timer when study timer starts
+        if (studyCount >= sessionsBeforeLongBreak && studyCount % sessionsBeforeLongBreak === 0) {
+            resetLongBreakTimer(); // Reset long break timer when study timer starts
+        }
+        
         isStudyRunning = true;
         studyTimer = setInterval(updateStudyTimer, 1000);
         document.getElementById('startStudyButton').disabled = true;
         document.getElementById('pauseStudyButton').disabled = false;
         document.getElementById('resetStudyButton').disabled = false;
         startSound.play().catch(error => console.error("Error playing start sound:", error));
+    }
+}
+
+function updateStudyTimer() {
+    if (studyTimeLeft <= 0) {
+        clearInterval(studyTimer);
+        studyEndSound.play();
+        studyCount++;
+        document.getElementById('studyCount').innerText = studyCount;
+        isStudyRunning = false;
+        document.getElementById('startStudyButton').disabled = false;
+        document.getElementById('pauseStudyButton').disabled = true;
+        document.getElementById('resetStudyButton').disabled = true;
+        if (studyCount >= sessionsBeforeLongBreak && studyCount % sessionsBeforeLongBreak === 0) {
+            startLongBreakTimer();
+        }
+    } else {
+        studyTimeLeft--;
+        document.getElementById('studyTime').innerText = formatTime(studyTimeLeft);
     }
 }
 
@@ -57,31 +110,12 @@ function pauseStudyTimer() {
 
 function resetStudyTimer() {
     pauseStudyTimer();
-    studyTimeLeft = 5; //25 * 60;
+    studyTimeLeft = studyDuration * 60;
     document.getElementById('studyTime').textContent = formatTime(studyTimeLeft);
     document.getElementById('startStudyButton').disabled = false;
     document.getElementById('pauseStudyButton').disabled = true;
     document.getElementById('resetStudyButton').disabled = true;
     document.getElementById('startStudyButton').textContent = "Start Study";
-}
-
-function updateStudyTimer() {
-    if (studyTimeLeft > 0) {
-        studyTimeLeft--;
-        document.getElementById('studyTime').textContent = formatTime(studyTimeLeft);
-    } else {
-        console.log("Study timer ended. Playing sound...");
-        studyEndSound.play().catch(error => console.error("Error playing study end sound:", error));
-        studyCount++;
-        document.getElementById('studyCount').textContent = studyCount;
-        resetStudyTimer();
-        
-        // Enable the long break button if studyCount is a multiple of 4
-        if (studyCount % 4 === 0) {
-            document.getElementById('startLongBreakButton').disabled = false;
-            document.getElementById('startBreakButton').disabled = true;
-        }
-    }
 }
 
 function startBreakTimer() {
@@ -93,7 +127,24 @@ function startBreakTimer() {
         document.getElementById('startBreakButton').disabled = true;
         document.getElementById('pauseBreakButton').disabled = false;
         document.getElementById('resetBreakButton').disabled = false;
+        document.getElementById('startLongBreakButton').disabled = true;
         startSound.play().catch(error => console.error("Error playing start sound:", error));
+    }
+}
+
+function updateBreakTimer() {
+    if (breakTimeLeft <= 0) {
+        clearInterval(breakTimer);
+        breakEndSound.play();
+        breakCount++;
+        document.getElementById('breakCount').innerText = breakCount;
+        isBreakRunning = false;
+        document.getElementById('startBreakButton').disabled = false;
+        document.getElementById('pauseBreakButton').disabled = true;
+        document.getElementById('resetBreakButton').disabled = true;
+    } else {
+        breakTimeLeft--;
+        document.getElementById('breakTime').innerText = formatTime(breakTimeLeft);
     }
 }
 
@@ -108,25 +159,12 @@ function pauseBreakTimer() {
 
 function resetBreakTimer() {
     pauseBreakTimer();
-    breakTimeLeft = 5; //5 * 60;
+    breakTimeLeft = breakDuration * 60;
     document.getElementById('breakTime').textContent = formatTime(breakTimeLeft);
     document.getElementById('startBreakButton').disabled = false;
     document.getElementById('pauseBreakButton').disabled = true;
     document.getElementById('resetBreakButton').disabled = true;
     document.getElementById('startBreakButton').textContent = "Start Break";
-}
-
-function updateBreakTimer() {
-    if (breakTimeLeft > 0) {
-        breakTimeLeft--;
-        document.getElementById('breakTime').textContent = formatTime(breakTimeLeft);
-    } else {
-        console.log("Break timer ended. Playing sound...");
-        breakEndSound.play().catch(error => console.error("Error playing break end sound:", error));
-        breakCount++;
-        document.getElementById('breakCount').textContent = breakCount;
-        resetBreakTimer();
-    }
 }
 
 function startLongBreakTimer() {
@@ -138,7 +176,22 @@ function startLongBreakTimer() {
         document.getElementById('startLongBreakButton').disabled = true;
         document.getElementById('pauseLongBreakButton').disabled = false;
         document.getElementById('resetLongBreakButton').disabled = false;
+        document.getElementById('startBreakButton').disabled = true;
         startSound.play().catch(error => console.error("Error playing start sound:", error));
+    }
+}
+
+function updateLongBreakTimer() {
+    if (longBreakTimeLeft <= 0) {
+        clearInterval(longBreakTimer);
+        breakEndSound.play();
+        isLongBreakRunning = false;
+        document.getElementById('startLongBreakButton').disabled = false;
+        document.getElementById('pauseLongBreakButton').disabled = true;
+        document.getElementById('resetLongBreakButton').disabled = true;
+    } else {
+        longBreakTimeLeft--;
+        document.getElementById('longBreakTime').innerText = formatTime(longBreakTimeLeft);
     }
 }
 
@@ -153,41 +206,26 @@ function pauseLongBreakTimer() {
 
 function resetLongBreakTimer() {
     pauseLongBreakTimer();
-    longBreakTimeLeft = 5; //15 * 60;
+    longBreakTimeLeft = longBreakDuration * 60;
     document.getElementById('longBreakTime').textContent = formatTime(longBreakTimeLeft);
-    document.getElementById('startLongBreakButton').disabled = true;
+    document.getElementById('startLongBreakButton').disabled = false;
     document.getElementById('pauseLongBreakButton').disabled = true;
     document.getElementById('resetLongBreakButton').disabled = true;
     document.getElementById('startLongBreakButton').textContent = "Start Long Break";
-    document.getElementById('startBreakButton').disabled = false;
-}
-
-function updateLongBreakTimer() {
-    if (longBreakTimeLeft > 0) {
-        longBreakTimeLeft--;
-        document.getElementById('longBreakTime').textContent = formatTime(longBreakTimeLeft);
-    } else {
-        console.log("Long break timer ended. Playing sound...");
-        breakEndSound.play().catch(error => console.error("Error playing break end sound:", error));
-        breakCount++;
-        document.getElementById('breakCount').textContent = breakCount;
-        resetLongBreakTimer();
-    }
 }
 
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
 function toggleMode() {
-    const body = document.body;
+    document.body.classList.toggle('dark-mode');
     const modeToggle = document.getElementById('modeToggle');
-    body.classList.toggle('dark-mode');
-    if (body.classList.contains('dark-mode')) {
-        modeToggle.textContent = "Switch to Light Mode";
+    if (document.body.classList.contains('dark-mode')) {
+        modeToggle.innerText = 'Switch to Light Mode';
     } else {
-        modeToggle.textContent = "Switch to Dark Mode";
+        modeToggle.innerText = 'Switch to Dark Mode';
     }
 }
