@@ -31,6 +31,33 @@ body.dark-mode .container {
     background-color: #333; /* Dark container background */
 }
 
+.button-container {
+    display: flex;
+    gap: 10px; /* Add space between buttons */
+    margin-bottom: 20px; /* Add space below the button container */
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #d1c4e9; /* Light purple hover effect */
+}
+
+body.dark-mode button {
+    background-color: #444; /* Dark button background */
+    color: #ddd;
+}
+
+body.dark-mode button:hover {
+    background-color: #555; /* Dark button hover effect */
+}
+
 .timer {
     text-align: center;
     padding: 20px;

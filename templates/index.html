@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
-    <button id="customizeButton" onclick="openCustomizePopup()">Customize Timer</button>
+    <div class="button-container">
+        <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
+        <button onclick="openCustomizePopup()">Customize Timers</button>
+    </div>
     <div class="quote-container">
         <p id="quote"></p>
     </div>
