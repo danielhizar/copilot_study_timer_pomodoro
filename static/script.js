@@ -2,11 +2,12 @@ let studyTimer;
 let breakTimer;
 let isStudyRunning = false;
 let isBreakRunning = false;
-let studyTimeLeft = 5; //25 * 60;
-let breakTimeLeft = 5; //5 * 60;
+let studyTimeLeft = 25 * 60;
+let breakTimeLeft = 5 * 60;
 
 const studyEndSound = document.getElementById('studyEndSound');
 const breakEndSound = document.getElementById('breakEndSound');
+const startSound = document.getElementById('startSound');
 
 function startStudyTimer() {
     if (!isStudyRunning) {
@@ -16,6 +17,7 @@ function startStudyTimer() {
         document.getElementById('startStudyButton').disabled = true;
         document.getElementById('pauseStudyButton').disabled = false;
         document.getElementById('resetStudyButton').disabled = false;
+        startSound.play().catch(error => console.error("Error playing start sound:", error));
     }
 }
 
@@ -57,6 +59,7 @@ function startBreakTimer() {
         document.getElementById('startBreakButton').disabled = true;
         document.getElementById('pauseBreakButton').disabled = false;
         document.getElementById('resetBreakButton').disabled = false;
+        startSound.play().catch(error => console.error("Error playing start sound:", error));
     }
 }
 
