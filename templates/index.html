@@ -6,11 +6,26 @@
     <title>Pomodoro Timer</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="button-container">
         <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
         <button onclick="openCustomizePopup()">Customize Timers</button>
+    </div>
+    <div class="music-container">
+        <h3>Focus Music</h3>
+        <audio id="focusMusic" src="{{ url_for('static', filename='audio/focusmusic1.mp3') }}"></audio>
+        <div class="music-controls">
+            <select id="musicOptions" onchange="changeMusic(this.value)">
+                <option value="static/audio/focusmusic1.mp3">Focus Music 1</option>
+                <option value="static/audio/focusmusic2.mp3">Focus Music 2</option>
+                <option value="static/audio/focusmusic3.mp3">Focus Music 3</option>
+                <option value="static/audio/focusmusic4.mp3">Focus Music 4</option>
+                <option value="static/audio/focusmusic5.mp3">Focus Music 5</option>
+            </select>
+            <button id="toggleMusicButton" onclick="toggleMusic()"><i class="fas fa-play"></i></button>
+        </div>
     </div>
     <div class="quote-container">
         <p id="quote"></p>
@@ -45,9 +60,9 @@
         <p>Completed Study Sessions: <span id="studyCount">0</span></p>
         <p>Completed Breaks: <span id="breakCount">0</span></p>
     </div>
-    <audio id="studyEndSound" src="{{ url_for('static', filename='study_end.wav') }}"></audio>
-    <audio id="breakEndSound" src="{{ url_for('static', filename='break_end.wav') }}"></audio>
-    <audio id="startSound" src="{{ url_for('static', filename='start_sound.wav') }}"></audio>
+    <audio id="studyEndSound" src="{{ url_for('static', filename='audio/study_end.wav') }}"></audio>
+    <audio id="breakEndSound" src="{{ url_for('static', filename='audio/break_end.wav') }}"></audio>
+    <audio id="startSound" src="{{ url_for('static', filename='audio/start_sound.wav') }}"></audio>
 
     <!-- Customize Timer Popup -->
     <div id="customizePopup" class="popup">

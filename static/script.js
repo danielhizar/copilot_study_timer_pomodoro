@@ -13,6 +13,37 @@ let breakTimeLeft = breakDuration * 60;
 let longBreakTimeLeft = longBreakDuration * 60;
 let studyCount = 0;
 let breakCount = 0;
+let audioPlayer = document.getElementById('focusMusic');
+let isPlaying = false;
+
+function toggleMusic() {
+    const button = document.getElementById('toggleMusicButton');
+    const icon = button.querySelector('i');
+
+    if (isPlaying) {
+        audioPlayer.pause();
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+    } else {
+        audioPlayer.play();
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+    }
+
+    isPlaying = !isPlaying;
+}
+
+function changeMusic(src) {
+    audioPlayer.src = src;
+    audioPlayer.pause();
+    isPlaying = false;
+
+    const button = document.getElementById('toggleMusicButton');
+    const icon = button.querySelector('i');
+    icon.classList.remove('fa-pause');
+    icon.classList.add('fa-play');
+}
+
 
 const studyEndSound = document.getElementById('studyEndSound');
 const breakEndSound = document.getElementById('breakEndSound');

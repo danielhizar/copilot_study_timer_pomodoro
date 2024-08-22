@@ -200,3 +200,32 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #45a049;
 }
+
+.music-container {
+    margin-bottom: 20px; /* Add space below the music container */
+    padding: 10px;
+    border: 1px solid #ccc; /* Thin border */
+    border-radius: 5px;
+    text-align: center;
+}
+
+audio#focusMusic {
+    display: none; /* Hide the audio player */
+}
+
+.music-controls {
+    display: flex;
+    gap: 10px; /* Add space between music control buttons */
+    justify-content: center;
+    align-items: center;
+}
+
+.music-controls button {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.music-controls select {
+    padding: 5px;
+    font-size: 16px;
+}
