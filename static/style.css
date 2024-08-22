@@ -7,7 +7,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100vh;
 }
 
@@ -25,6 +25,7 @@ body.dark-mode {
     flex-direction: row; /* Stack timers horizontally */
     justify-content: center;
     gap: 20px; /* Add space between timers */
+    margin-top: 10px; /* Add space to avoid overlap with fixed buttons */
 }
 
 body.dark-mode .container {
@@ -35,6 +36,12 @@ body.dark-mode .container {
     display: flex;
     gap: 10px; /* Add space between buttons */
     margin-bottom: 20px; /* Add space below the button container */
+    position: absolute; /* Fix the position at the top */
+    top: 20px; /* Add some space from the top */
+    left: 50%;
+    transform: translateX(-50%); /* Center the buttons horizontally */
+    z-index: 1000; /* Ensure the buttons are above other content */
+    align-items: center;
 }
 
 button {
@@ -61,6 +68,7 @@ body.dark-mode button:hover {
 .timer {
     text-align: center;
     padding: 20px;
+    position: relative;
     background-color: #f3e5f5; /* Light purple background for each timer */
     border: 2px solid #d1c4e9; /* Light purple border */
     border-radius: 10px;
@@ -68,6 +76,8 @@ body.dark-mode button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 body.dark-mode .timer {
@@ -201,7 +211,16 @@ button[type="submit"]:hover {
     background-color: #45a049;
 }
 
+.music-session-container {
+    display: flex;
+    gap: 20px; /* Add space between music container and session counts */
+    margin-top: 20px; /* Add space to avoid overlap with fixed buttons */
+    align-items: center;
+}
+
+
 .music-container {
+    margin-top: 80px; /* Add space to avoid overlap with fixed buttons */
     margin-bottom: 20px; /* Add space below the music container */
     padding: 10px;
     border: 1px solid #ccc; /* Thin border */
@@ -228,4 +247,20 @@ audio#focusMusic {
 .music-controls select {
     padding: 5px;
     font-size: 16px;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(0, 128, 0, 0.3); /* Semi-transparent green */
+    z-index: 0;  /* Place behind the timer content */
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+body.dark-mode .progress-bar {
+    background-color: rgba(0, 128, 0, 0.5); /* Dark mode progress bar color */
+    pointer-events: none; /* Allow clicks to pass through */
 }

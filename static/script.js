@@ -15,6 +15,20 @@ let studyCount = 0;
 let breakCount = 0;
 let audioPlayer = document.getElementById('focusMusic');
 let isPlaying = false;
+let studyInterval, breakInterval, longBreakInterval;
+
+function updateProgressBar(progressBarId, duration, timeRemaining) {
+    const progressBar = document.getElementById(progressBarId);
+    const progress = ((duration - timeRemaining) / duration) * 100;
+    progressBar.style.width = progress + '%';
+}
+
+function resetAllProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-bar');
+    progressBars.forEach(bar => {
+        bar.style.width = '0%';
+    });
+}
 
 function toggleMusic() {
     const button = document.getElementById('toggleMusicButton');
@@ -96,6 +110,7 @@ function customizeTimers(event) {
 }
 
 function startStudyTimer() {
+    resetAllProgressBars();
     if (!isStudyRunning) {
         resetBreakTimer(); // Reset break timer when study timer starts
         if (studyCount >= sessionsBeforeLongBreak && studyCount % sessionsBeforeLongBreak === 0) {
@@ -122,10 +137,12 @@ function updateStudyTimer() {
         document.getElementById('pauseStudyButton').disabled = true;
         document.getElementById('resetStudyButton').disabled = true;
         if (studyCount >= sessionsBeforeLongBreak && studyCount % sessionsBeforeLongBreak === 0) {
-            startLongBreakTimer();
+            document.getElementById('startLongBreakButton').disabled = false;
+
         }
     } else {
         studyTimeLeft--;
+        updateProgressBar('studyProgressBar', (studyDuration * 60), studyTimeLeft);
         document.getElementById('studyTime').innerText = formatTime(studyTimeLeft);
     }
 }
@@ -150,6 +167,7 @@ function resetStudyTimer() {
 }
 
 function startBreakTimer() {
+    resetAllProgressBars();
     if (!isBreakRunning) {
         resetStudyTimer(); // Reset study timer when break timer starts
         resetLongBreakTimer(); // Reset long break timer when break timer starts
@@ -175,6 +193,7 @@ function updateBreakTimer() {
         document.getElementById('resetBreakButton').disabled = true;
     } else {
         breakTimeLeft--;
+        updateProgressBar('breakProgressBar', (breakDuration * 60), breakTimeLeft);
         document.getElementById('breakTime').innerText = formatTime(breakTimeLeft);
     }
 }
@@ -199,6 +218,7 @@ function resetBreakTimer() {
 }
 
 function startLongBreakTimer() {
+    resetAllProgressBars();
     if (!isLongBreakRunning) {
         resetStudyTimer(); // Reset study timer when long break timer starts
         resetBreakTimer(); // Reset break timer when long break timer starts
@@ -222,6 +242,7 @@ function updateLongBreakTimer() {
         document.getElementById('resetLongBreakButton').disabled = true;
     } else {
         longBreakTimeLeft--;
+        updateProgressBar('longBreakProgressBar', (longBreakDuration * 60), longBreakTimeLeft);
         document.getElementById('longBreakTime').innerText = formatTime(longBreakTimeLeft);
     }
 }

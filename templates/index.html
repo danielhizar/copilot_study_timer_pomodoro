@@ -13,18 +13,24 @@
         <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
         <button onclick="openCustomizePopup()">Customize Timers</button>
     </div>
-    <div class="music-container">
-        <h3>Focus Music</h3>
-        <audio id="focusMusic" src="{{ url_for('static', filename='audio/focusmusic1.mp3') }}"></audio>
-        <div class="music-controls">
-            <select id="musicOptions" onchange="changeMusic(this.value)">
-                <option value="static/audio/focusmusic1.mp3">Focus Music 1</option>
-                <option value="static/audio/focusmusic2.mp3">Focus Music 2</option>
-                <option value="static/audio/focusmusic3.mp3">Focus Music 3</option>
-                <option value="static/audio/focusmusic4.mp3">Focus Music 4</option>
-                <option value="static/audio/focusmusic5.mp3">Focus Music 5</option>
-            </select>
-            <button id="toggleMusicButton" onclick="toggleMusic()"><i class="fas fa-play"></i></button>
+    <div class="music-session-container">
+        <div class="music-container">
+            <h3>Focus Music</h3>
+            <audio id="focusMusic" src="{{ url_for('static', filename='audio/focusmusic1.mp3') }}"></audio>
+            <div class="music-controls">
+                <select id="musicOptions" onchange="changeMusic(this.value)">
+                    <option value="audio/focusmusic1.mp3">Focus Music 1</option>
+                    <option value="audio/focusmusic2.mp3">Focus Music 2</option>
+                    <option value="audio/focusmusic3.mp3">Focus Music 3</option>
+                    <option value="audio/focusmusic4.mp3">Focus Music 4</option>
+                    <option value="audio/focusmusic5.mp3">Focus Music 5</option>
+                </select>
+                <button id="toggleMusicButton" onclick="toggleMusic()"><i class="fas fa-play"></i></button>
+            </div>
+        </div>
+        <div class="session-counts">
+            <p>Completed Study Sessions: <span id="studyCount">0</span></p>
+            <p>Completed Breaks: <span id="breakCount">0</span></p>
         </div>
     </div>
     <div class="quote-container">
@@ -32,6 +38,7 @@
     </div>
     <div class="container">
         <div class="timer">
+            <div class="progress-bar" id="studyProgressBar"></div>
             <h2>Study Timer</h2>
             <p id="studyDuration">25 mins</p>
             <h3 id="studyTime">25:00</h3>
@@ -40,6 +47,7 @@
             <button id="resetStudyButton" onclick="resetStudyTimer()" disabled>Reset Study</button>
         </div>
         <div class="timer">
+            <div class="progress-bar" id="breakProgressBar"></div>
             <h2>Break Timer</h2>
             <p id="breakDuration">5 mins</p>
             <h3 id="breakTime">05:00</h3>
@@ -48,6 +56,7 @@
             <button id="resetBreakButton" onclick="resetBreakTimer()" disabled>Reset Break</button>
         </div>
         <div class="timer">
+            <div class="progress-bar" id="longBreakProgressBar"></div>
             <h2>Long Break Timer</h2>
             <p id="longBreakDuration">15 mins</p>
             <h3 id="longBreakTime">15:00</h3>
@@ -55,10 +64,6 @@
             <button id="pauseLongBreakButton" onclick="pauseLongBreakTimer()" disabled>Pause Long Break</button>
             <button id="resetLongBreakButton" onclick="resetLongBreakTimer()" disabled>Reset Long Break</button>
         </div>
-    </div>
-    <div class="session-counts">
-        <p>Completed Study Sessions: <span id="studyCount">0</span></p>
-        <p>Completed Breaks: <span id="breakCount">0</span></p>
     </div>
     <audio id="studyEndSound" src="{{ url_for('static', filename='audio/study_end.wav') }}"></audio>
     <audio id="breakEndSound" src="{{ url_for('static', filename='audio/break_end.wav') }}"></audio>
