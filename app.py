@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -50,14 +50,33 @@ def login():
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form['username']
-    password = generate_password_hash(request.form['password'])
+    email = request.form['email']
+    confirm_email = request.form['confirm_email']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
+    
+    if email != confirm_email:
+        return jsonify({'success': False, 'message': 'Emails do not match.'})
+    if password != confirm_password:
+        return jsonify({'success': False, 'message': 'Passwords do not match.'})
+    
+    hashed_password = generate_password_hash(password)
+    
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+    if cursor.fetchone():
+        conn.close()
+        return jsonify({'success': False, 'message': 'Username already exists.'})
+    conn.close()
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
     conn.commit()
     conn.close()
-    flash('Your account has been created!', 'success')
-    return redirect(url_for('index'))
+    
+    return jsonify({'success': True, 'message': 'User registered successfully!'})
 
 @app.route('/logout')
 @login_required
@@ -73,6 +92,7 @@ if __name__ == '__main__':
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
+            email TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL
         )
     ''')
