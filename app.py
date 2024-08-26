@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify, session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -28,24 +28,27 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    username = session.get('username')
+    return render_template('index.html', username=username)
 
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
+
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
     user = cursor.fetchone()
     conn.close()
-    if user and check_password_hash(user[2], password):
-        user_obj = User(id=user[0], username=user[1], password=user[2])
+    if user and check_password_hash(user[3], password):
+        user_obj = User(id=user[0], username=user[1], password=user[3])
         login_user(user_obj)
-        return redirect(url_for('index'))
+        session['username'] = username
+        return jsonify({'success': True, 'message': 'Logged in successfully!'})
     else:
-        flash('Login Unsuccessful. Please check username and password', 'danger')
-        return redirect(url_for('index'))
+        return jsonify({'success': False, 'message': 'Invalid username or password.'})
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -82,6 +85,7 @@ def register():
 @login_required
 def logout():
     logout_user()
+    session.pop('username', None)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
