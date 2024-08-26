@@ -14,17 +14,19 @@
         <div class="alert alert-success" role="alert">
             Welcome, {{ username }}!
         </div>
-    {% endif %}
-
+        <div class="button-container">
+            <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
+            <button onclick="openCustomizePopup()">Customize Timers</button>
+            <button onclick="window.location.href='/logout'">Logout</button>
+        </div>
+    {% else %}
         <div class="button-container">
             <button id="modeToggle" onclick="toggleMode()">Switch to Dark Mode</button>
             <button onclick="openCustomizePopup()">Customize Timers</button>
             <button onclick="openLoginModal()">Login</button>
-            <button onclick="window.location.href='/logout'">Logout</button>
             <button onclick="openRegisterModal()">Register</button>
         </div>
-
-
+    {% endif %}
     <!-- Login Modal -->
     
     <div id="loginModal" class="modal">

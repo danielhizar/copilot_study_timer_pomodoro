@@ -35,13 +35,14 @@ body.dark-mode .container {
 .button-container {
     display: flex;
     gap: 10px; /* Add space between buttons */
-    margin-bottom: 20px; /* Add space below the button container */
-    position: absolute; /* Fix the position at the top */
+    margin-bottom: 0px; /* Add space below the button container */
+    position: relative; /* Fix the position at the top */
     top: 20px; /* Add some space from the top */
     left: 50%;
     transform: translateX(-50%); /* Center the buttons horizontally */
     z-index: 1000; /* Ensure the buttons are above other content */
     align-items: center;
+    align-self: start;
 }
 
 button {
@@ -220,8 +221,8 @@ button[type="submit"]:hover {
 
 
 .music-container {
-    margin-top: 80px; /* Add space to avoid overlap with fixed buttons */
-    margin-bottom: 20px; /* Add space below the music container */
+    margin-top: 10px; /* Add space to avoid overlap with fixed buttons */
+    margin-bottom: 10px; /* Add space below the music container */
     padding: 10px;
     border: 1px solid #ccc; /* Thin border */
     border-radius: 5px;
@@ -308,7 +309,8 @@ body.dark-mode .progress-bar {
 
 .alert {
     padding: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
+    margin-top: 10px;
     border: 1px solid transparent;
     border-radius: 4px;
 }
